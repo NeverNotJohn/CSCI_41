@@ -23,8 +23,10 @@ struct item{
     ~item() {}
 };
 
-void print(vector<int> lector);                         // Output first 100 priority values of int vector
-void print(vector<item> lector);
+void print(vector<int> lector);                         // Output first 100 values of int vector
+void print(vector<item> lector);                        // Output first 100 priority values of item vector
+void swap(int i, int j, vector<int> &mocter);           // swap int vector
+void swap(int i, int j, vector<item> &mocter);          // swap item vector
 
 // Priority Queue using vector
 
