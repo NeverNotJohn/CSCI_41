@@ -1,4 +1,5 @@
 #include "lib/func.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -97,6 +98,8 @@ int main() {
     print(PQvector1.myVector);
     cout << endl << endl << endl;
 
+*/
+/*
     
     ////////////////////////////////////////////////////////////
     //      Priority Queue w/ Vector w/  O(NlogN) sorting     //
@@ -137,13 +140,14 @@ int main() {
     priorityQueueHeap PQvector3;
 
     PQvector3.myVector = {};
-    vector<int> output;
+    vector<int> output = {};
+
     total_time = 0;
 
     for (int i = 0; i < 5; i++) {
 
-        vector<int> output = {};
         PQvector3.myVector = {};
+        output = {};
 
         unsigned long long int start = clock();
 
@@ -160,11 +164,11 @@ int main() {
         unsigned long long int end = clock();
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
         total_time += tome;
-
     }
 
     cout << "Average Heap sort execution time: " << total_time/5 << " seconds" << endl;
     print(output);
+
     if (PQvector3.is_valid()) { cout << "Heap is valid";}
     else {cout << "Heap isn't valid";}
 

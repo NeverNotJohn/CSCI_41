@@ -95,7 +95,10 @@ void priorityQueueHeap::insert(int data, int priority)
 item priorityQueueHeap::delMax()
 {
     item temp = myVector[0];
-    swap(0, myVector.size()-1, myVector);       // Switch Largest and smallest        
+    swap(0, myVector.size()-1, myVector);       // Switch Largest and smallest      
+
+    myVector.pop_back();  
+    
     sink(0);                                    // Heapify
     return temp;
 }

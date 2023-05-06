@@ -34,8 +34,6 @@ int partition(int low, int high, vector<int> &vocter){
 
 }
 
-
-
 void quickSort(vector<int> &vicky, int low, int high) {     // O(NlogN) average
 
     if (low < high) 
