@@ -14,6 +14,7 @@ using namespace std;
 
 */
 
+// Misc Functions
 
 bool priorityQueueHeap::is_valid(int parent_index)
 {
@@ -38,6 +39,8 @@ bool priorityQueueHeap::is_valid(int parent_index)
     else { return is_valid(right_index); }
 
 }
+
+// Functions
 
 void priorityQueueHeap::swim(int i)
 {
@@ -87,4 +90,12 @@ void priorityQueueHeap::insert(int data, int priority)
     item stuff(data, priority);
     myVector.push_back(stuff);
     swim(myVector.size() - 1);
+}
+
+item priorityQueueHeap::delMax()
+{
+    item temp = myVector[0];
+    swap(0, myVector.size()-1, myVector);       // Switch Largest and smallest        
+    sink(0);                                    // Heapify
+    return temp;
 }

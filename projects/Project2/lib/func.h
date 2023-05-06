@@ -80,7 +80,7 @@ struct priorityQueueHeap {                              // Priority Queue using 
     void insert(int data, int priority);
     void swim(int i);
     void sink(int i);
-    void delMax();
+    item delMax();
 
 };
 
