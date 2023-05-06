@@ -19,7 +19,11 @@ struct item{
     int priority;
 
     // Constructors
-    item(int data_in, int priority_in);
+    item(int data_in, int priority_in) {
+    data = data_in;
+    priority = priority_in;
+    }
+
     ~item() {}
 };
 

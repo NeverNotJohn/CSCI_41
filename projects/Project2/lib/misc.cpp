@@ -18,20 +18,6 @@ using namespace std;
 
 */
 
-struct item {
-    
-    // Data
-
-    int data;
-    int priority;
-
-    item(int data_in, int priority_in) {
-        data = data_in;
-        priority = priority_in;
-    }
-
-    ~item() {}
-};
 
 void print(vector<int> lector) {
     cout << left;
