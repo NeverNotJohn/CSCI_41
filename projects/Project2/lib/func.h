@@ -28,6 +28,13 @@ void print(vector<item> lector);                        // Output first 100 prio
 void swap(int i, int j, vector<int> &mocter);           // swap int vector
 void swap(int i, int j, vector<item> &mocter);          // swap item vector
 
+
+// Quick Sort
+
+int partition(int low, int high, vector<int> &vocter);
+void quickSort(vector<int> &vicky, int low, int high);
+
+
 // Priority Queue using vector
 
 struct priorityQueueSortedVector {
@@ -72,5 +79,6 @@ struct priorityQueueHeap {                              // Priority Queue using 
     void delMax();
 
 };
+
 
 #endif

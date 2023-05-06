@@ -312,36 +312,6 @@ void quickSort(vector<int> &vicky, int low, int high) {
 
 }
 
-/*
- ____  _  _  ____  ____  __    ____    ____   __  ____  ____ 
-(  _ \/ )( \(  _ \(  _ \(  )  (  __)  / ___) /  \(  _ \(_  _)
- ) _ () \/ ( ) _ ( ) _ (/ (_/\ ) _)   \___ \(  O ))   /  )(  
-(____/\____/(____/(____/\____/(____)  (____/ \__/(__\_) (__) 
-
-*/
-
-// Priority Queue with array/vector with any sorting with n^2
-
-void bubble_sort(vector<int> &array) {
-
-    int size = array.size();
-
-    for (int unsorted_size = size; unsorted_size > 1; unsorted_size--)
-    {
-        for (int left_i = 0; left_i < unsorted_size - 1; left_i++)
-        {
-            int right_i = left_i+1;
-            int left = array[left_i];
-            int right = array[right_i];
-
-            if (left >= right)
-            {
-                swap(left_i, right_i, array);
-            }
-        }
-    }
-}
-
 int main() {
 
     // Creating BIG vector
