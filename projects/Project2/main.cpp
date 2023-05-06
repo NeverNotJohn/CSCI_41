@@ -156,7 +156,7 @@ int main() {
             PQvector3.insert(unsorted_vector[i].data, unsorted_vector[i].priority); 
         }
         
-        for (int i = 0; i < 100; i++)                           // Heap Sort
+        for (int i = 0; i < PQvector3.myVector.size(); i++)                           // Heap Sort
         {
             output.push_back((PQvector3.delMax()).priority);
         }

@@ -66,7 +66,6 @@ struct priorityQueueHeap {                              // Priority Queue using 
     vector<item> myVector;
 
     // Constructors
-
     priorityQueueHeap() {}
     ~priorityQueueHeap() {}
 
@@ -77,10 +76,57 @@ struct priorityQueueHeap {                              // Priority Queue using 
     bool is_valid(int parent_index=0);
 
     // Functions
-    void insert(int data, int priority);
+    void insert(int data, int priority);                // Kind of also heapify
     void swim(int i);
     void sink(int i);
     item delMax();
+
+};
+
+// HEAP USING Binary Tree
+
+struct node {
+    
+    // data
+    int data;
+    int priority;
+
+    // pointers
+    node* parent;
+    node* left_child;
+    node* right_child;
+
+    // Constructors
+    node(int data_in, int priority_in, node* parent);
+    ~node() { delete this; }
+    
+};
+
+struct heap_BT {
+
+    // Data
+    static node *root;
+
+    // Constructors
+    heap_BT() {};
+    ~heap_BT();                 // dont forget to delete all
+    
+    // Misc Functions
+    bool is_valid(node* current = root);            // checks if heap it valid
+    void delete_node(node* current);
+
+    // Functions
+    void insert(int data, int priority);
+    void swim(node* current);
+    void sink(node* current);
+
+    int computeHeight(node* current = root);
+    int computeLeaves(node* current = root);
+    bool lookup(int key);
+    vector<node*> sameLevel(node* current);
+    bool descendant(node* current, node* aNode);
+
+    // Functions
 
 };
 

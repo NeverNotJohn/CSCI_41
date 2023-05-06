@@ -14,31 +14,39 @@ using namespace std;
                                                                    
 */
 
-int partition(int low, int high, vector<int> &vocter){
+int partition(vector<int> &vocter, int low, int high){
 
-    int pivot = vocter[high];
-    int leftWall = low;
+    int pivot = vocter[low];
 
-    for (int i = low; i < high; i++)
+    int num = 0;
+
+    for (int i = low + 1; i <= high; i++)
     {
-        if (vocter[i] <= pivot)
-        {
-            swap(i, leftWall, vocter);
-            leftWall = leftWall + 1;
-        }
+        if (vocter[i] <= pivot) {num++;}
     }
 
-    swap(high, leftWall, vocter);
+    int p_index = low + num;
+    swap(p_index, low, vocter);
 
-    return leftWall;
+    int i = low;
+    int j = high;
 
+    while (i < p_index && j > p_index)
+    {
+        while (vocter[i] <= pivot) { i++; }
+        while (vocter[j] > pivot) {j--;}
+        if (i < p_index && j > p_index) { swap(i++, j--, vocter);}
+    }
+    
+
+    return p_index;
 }
 
 void quickSort(vector<int> &vicky, int low, int high) {     // O(NlogN) average
 
     if (low < high) 
     {
-        int pivot_location = partition(low, high, vicky);
+        int pivot_location = partition(vicky, low, high);
         quickSort(vicky, low, pivot_location-1);
         quickSort(vicky, pivot_location+1, high);
     }
