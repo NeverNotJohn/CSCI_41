@@ -1,5 +1,4 @@
 #include "lib/func.h"
-#include <cstdlib>
 
 using namespace std;
 
@@ -151,12 +150,12 @@ int main() {
 
         unsigned long long int start = clock();
 
-        for (int i = 0; i < unsorted_vector.size(); i++)        // Insert AND heapify
+        for (int j = 0; j < unsorted_vector.size(); j++)        // Insert AND heapify
         {          
-            PQvector3.insert(unsorted_vector[i].data, unsorted_vector[i].priority); 
+            PQvector3.insert(unsorted_vector[j].data, unsorted_vector[j].priority); 
         }
         
-        for (int i = 0; i < PQvector3.myVector.size(); i++)                           // Heap Sort
+        for (int j = 0; j < PQvector3.myVector.size(); j++)                           // Heap Sort
         {
             output.push_back((PQvector3.delMax()).priority);
         }
@@ -172,9 +171,29 @@ int main() {
     if (PQvector3.is_valid()) { cout << "Heap is valid";}
     else {cout << "Heap isn't valid";}
 
-    cout << endl;
+    cout << endl << endl << endl;
+
+    /////////////////////////////////////////////////
+    //      Priority Queue w/ Binary Tree Heap     //
+    ////////////////////////////////////////////////
+
+    heap_BT heapy;
+
+    total_time = 0;
 
 
+    for (int i = 0; i < 1; i++)
+    {
+        for (int j = 0; j < unsorted_vector.size(); j++)
+        {
+            heapy.insert(unsorted_vector[j].data, unsorted_vector[j].priority);
+        }
+    }
+
+    cout << "root: " << heapy.root->priority << endl;
+    cout << "tail: " << heapy.tail->priority << endl; 
+
+    heapy.display();
 
     system("pause");
 }

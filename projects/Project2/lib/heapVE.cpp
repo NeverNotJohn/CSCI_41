@@ -47,7 +47,8 @@ void priorityQueueHeap::swim(int i)
     int current_prio = (myVector[i]).priority;
     int parent_prio = (myVector[parent_index(i)]).priority;
 
-    while (i > 0 && parent_prio > current_prio) {
+    while (i > 0 && parent_prio > current_prio) 
+    {
         swap(parent_index(i), i, myVector);
         i = parent_index(i);
 

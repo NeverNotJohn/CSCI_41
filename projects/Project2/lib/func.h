@@ -97,28 +97,33 @@ struct node {
     node* right_child;
 
     // Constructors
-    node(int data_in, int priority_in, node* parent);
-    ~node() { delete this; }
+    node(int data_in, int priority_in, node* parent_in);
+    ~node();
     
 };
 
 struct heap_BT {
 
     // Data
-    static node *root;
+    static node* root;
+    static node* tail;
 
     // Constructors
     heap_BT() {};
-    ~heap_BT();                 // dont forget to delete all
+    ~heap_BT() {};                                  // dont forget to delete all
     
     // Misc Functions
+    void swap(node* left, node* bottom);
     bool is_valid(node* current = root);            // checks if heap it valid
     void delete_node(node* current);
+    void display(node* current = root, int level = 0);
+    void push_back(node* item, node* current=tail, int level = 0);
 
-    // Functions
+    // Assignment Functions
     void insert(int data, int priority);
     void swim(node* current);
     void sink(node* current);
+    int delMax();
 
     int computeHeight(node* current = root);
     int computeLeaves(node* current = root);
