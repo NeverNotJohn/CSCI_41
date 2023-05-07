@@ -28,7 +28,8 @@ node::node(int data_in, int priority_in, node* parent_in)
 
 node::~node()                       // assumes node is at bottom
 { 
-    if (parent->left_child == this)
+    if (parent == nullptr) {}
+    else if (parent->left_child == this)
     {
         parent->left_child = nullptr;
     }
@@ -36,7 +37,6 @@ node::~node()                       // assumes node is at bottom
     {
         parent->right_child = nullptr;
     }
-    delete this;
 }
 
 // Heap
@@ -51,6 +51,8 @@ void heap_BT::swap(node* left, node* right)
     int temp_data = left->data;
     int temp_prio = left->priority;
 
+    if (left == nullptr || right == nullptr) {return;}
+
     left->data = right->data;
     left->priority = right->priority;
 
@@ -61,21 +63,21 @@ void heap_BT::swap(node* left, node* right)
 void heap_BT::display(node* root, int level)
 {
 
-    if (level == 10) {return;}
+    if (level == 12) {return;}
 
     /* Format:
 
     |--1
-       |--2         (Left Child of 1)
-       |   |--2                         (Left Child of 2)
-       |   |--4                         (Right Child of 2)
-       |--3         (Right Child of 3)
+       |--2         (Right Child of 1)
+       |   |--2                         (Right Child of 2)
+       |   |--4                         (Left Child of 2)
+       |--3         (Left Child of 1)
        |   |--6
        |   |--7
 
     */
 
-    if (level == 0) {cout << "|--" << root->priority << endl;}
+    if (level == 0) {cout << "|--" << root << endl;}
     else
     {
         cout << "   ";
@@ -83,14 +85,14 @@ void heap_BT::display(node* root, int level)
         {
             cout << "|   ";
         }
-        cout << "|--" << root->priority << endl;
+        cout << "|--" << root << endl;
     }
     node* L = root->left_child;
     node* R = root->right_child;
 
     if (L == nullptr && R == nullptr) {return;}
-    if (L != nullptr) {display(L, (level+1));}
     if (R != nullptr) {display(R, (level+1));}
+    if (L != nullptr) {display(L, (level+1));}
 }
 
 void heap_BT::push_back(node* item, node* current, int level)
@@ -102,12 +104,13 @@ void heap_BT::push_back(node* item, node* current, int level)
     {
         root = item;
         tail = root;
+        item->parent = nullptr;
         return;
     }
 
     if (current == root)
     {
-        while (true)        // HAS TO INSERT TO THE VERY LEFT 
+        while (true)        // HAS TO INSERT TO THE VERY LEFT
         {
             if (current->left_child == nullptr) { break;}
             else {current = current->left_child;}
@@ -168,6 +171,65 @@ void heap_BT::push_back(node* item, node* current, int level)
     }
 }
 
+void heap_BT::pop_back(node* current, int level)
+{
+    if (current == root)
+    {
+
+        if (level == 0)     // Delete root into empty tree
+        {
+            tail = nullptr;
+            root = nullptr;
+            delete current;
+            return;
+        }
+
+        while (current->right_child != nullptr)     // Go all the way down to the right
+        {
+            current = current->right_child;
+        }
+
+        tail = current;
+        return;
+    }
+
+    switch (level)
+    {
+    case 0:
+        if (current->parent->right_child == current)
+        {
+            tail = current->parent->left_child;
+            delete current;
+            return;
+        }
+        else
+        {
+            node* temp = current->parent;
+            delete current;
+            pop_back(temp, level+1);
+            return;
+        }                
+
+    default:        // FIXME
+        
+        if (current->parent->right_child == current)    // Go until right child is found OR root is found
+        {
+            current = current->parent->left_child;
+
+            while (current->right_child != nullptr)     // Go all the way down to the right
+            {
+                current = current->right_child;
+            }
+
+            tail = current;
+
+            return;
+        }
+
+        else { pop_back(current->parent, level+1); return; }    // Go up until right child is found
+    }
+}
+
 // ASSIGNMENTS FUNCTIONS
 
 void heap_BT::swim(node* current)
@@ -186,6 +248,9 @@ void heap_BT::swim(node* current)
 
 void heap_BT::sink(node* current)
 {
+
+    if (current == nullptr) { return;}
+
     while (true) {
         node* min = current;
 
@@ -219,5 +284,14 @@ void heap_BT::insert(int data, int priority)
     swim(item);
 }
 
+int heap_BT::delMax()
+{
+    int temp = root->priority;
+    swap(root, tail);
 
+    pop_back();
+    sink(root);
+
+    return temp;
+}
 

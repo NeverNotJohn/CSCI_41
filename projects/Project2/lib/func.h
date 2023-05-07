@@ -114,10 +114,9 @@ struct heap_BT {
     
     // Misc Functions
     void swap(node* left, node* bottom);
-    bool is_valid(node* current = root);            // checks if heap it valid
-    void delete_node(node* current);
     void display(node* current = root, int level = 0);
     void push_back(node* item, node* current=tail, int level = 0);
+    void pop_back(node* current = tail, int level = 0);
 
     // Assignment Functions
     void insert(int data, int priority);

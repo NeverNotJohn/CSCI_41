@@ -184,16 +184,23 @@ int main() {
 
     for (int i = 0; i < 1; i++)
     {
-        for (int j = 0; j < unsorted_vector.size(); j++)
+        output = {};
+        for (int j = 0; j < 64; j++)
         {
-            heapy.insert(unsorted_vector[j].data, unsorted_vector[j].priority);
+            heapy.insert(rand() % 64, rand() % 64);
+        }
+
+        for (int j = 0; j < 64 - 1; j++)
+        {
+            output.push_back(heapy.delMax());
+            heapy.display();        // FIXME
+            cout << "tail: " << heapy.tail;
+            cout << endl << endl << endl;
         }
     }
 
-    cout << "root: " << heapy.root->priority << endl;
-    cout << "tail: " << heapy.tail->priority << endl; 
+    print(output);
 
-    heapy.display();
 
     system("pause");
 }
