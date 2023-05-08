@@ -10,7 +10,7 @@ int main() {
     /////////////////////////
     */
 
-    int size = 1000;
+    int size = 1000000;
 
     // Creating BIG vector
 
@@ -36,6 +36,9 @@ int main() {
         unsigned long long int end = clock();
 
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << i << ": " << tome << " seconds" << endl;
+
         total_time += tome;
     }
 
@@ -77,8 +80,8 @@ int main() {
 
         unsigned long long int start = clock();
 
-        for (int i = 0; i < unsorted_vector.size(); i++) {                              // INSERT N ITEMS O(N)
-            PQvector1.insert(unsorted_vector[i].data, unsorted_vector[i].priority);     // Linear insert O(N)
+        for (int j = 0; j < unsorted_vector.size(); j++) {                              // INSERT N ITEMS O(N)
+            PQvector1.insert(unsorted_vector[j].data, unsorted_vector[j].priority);     // Linear insert O(N)
         }
 
         // Total time complexity = O(N * N) = O(N^2)
@@ -86,6 +89,8 @@ int main() {
         unsigned long long int end = clock();
 
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << i << ": " << tome << " seconds" << endl;
         total_time += tome;
     }
 
@@ -120,6 +125,9 @@ int main() {
         unsigned long long int end = clock();
 
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << i << ": " << tome << " seconds" << endl;
+
         total_time += tome;
     }
 
@@ -158,6 +166,9 @@ int main() {
 
         unsigned long long int end = clock();
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << i << ": " << tome << " seconds" << endl;
+
         total_time += tome;
     }
 
@@ -191,6 +202,9 @@ int main() {
 
         unsigned long long int end = clock();
         double tome = (end - start) / (double)CLOCKS_PER_SEC;
+
+        cout << i << ": " << tome << " seconds" << endl;
+
         total_time += tome;
 
     }
@@ -199,6 +213,7 @@ int main() {
     print(output);
 
     // OTHER FUNCTIONS
+    
     heap_BT heapy;
     for (int j = 0; j < unsorted_vector.size(); j++)
     {
@@ -206,7 +221,8 @@ int main() {
     }
 
     cout << endl;
-    cout << "Num of Leaves: " << heapy.computeLeaves() << endl;
+    
+    cout << "Num of Leaves: " << heapy.computeLeaves() << endl << endl;
     cout << "Lookup(-1): ";
 
     if (heapy.lookup(-1)) { cout << "Num is in array";}
@@ -217,6 +233,28 @@ int main() {
     cout << "Lookup(unsorted_vector[99].priority): ";
     if (heapy.lookup(unsorted_vector[99].priority)) { cout << "Num is in array";}
     else { cout << "Num is not in array";}
+
+    cout << endl << endl;
+
+    cout << "samelevel(root->left_child->right_child->left_child->left_child) - 4 Levels = 16 nodes: " << endl;
+    vector<node*> stuff = heapy.sameLevel(heapy.root->left_child->right_child->left_child->left_child);
+
+    cout << "Priority values: ";
+    for (int i = 0; i < stuff.size(); i++)
+    {
+        cout << stuff[i]->priority << " ";
+    }
+    cout << endl << endl;
+
+    cout << "descendant(root->left_child, tail):" << endl;
+    if (heapy.descendant(heapy.root->left_child, heapy.tail)) { cout << "aNode is a descedant";}
+    else {cout << "aNode isn't a descendant";}
+    cout << endl;
+
+    cout << "descendant(root->right_child, tail):" << endl;
+    if (heapy.descendant(heapy.root->right_child, heapy.tail)) { cout << "aNode is a descedant";}
+    else {cout << "aNode isn't a descendant";}
+    cout << endl;
 
 
 

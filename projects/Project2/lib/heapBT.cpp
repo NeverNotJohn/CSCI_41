@@ -85,86 +85,6 @@ void heap_BT::display(node* root, int level)
     if (L != nullptr) {display(L, (level+1));}
 }
 
-/*
-
-void heap_BT::push_back(node* item, node* current, int level)
-{
-
-    tail = item;
-
-    if (current == nullptr)
-    {
-        root = item;
-        tail = root;
-        item->parent = nullptr;
-        return;
-    }
-
-    if (current == root)
-    {
-        while (true)        // HAS TO INSERT TO THE VERY LEFT
-        {
-            if (current->left_child == nullptr) { break;}
-            else {current = current->left_child;}
-        }
-        current->left_child = item;
-        item->parent = current;
-        return;
-    }
-
-    switch (level)
-    {
-    case 0:             // Initial level
-        if (current->parent->right_child == nullptr)
-        {
-            current->parent->right_child = item;
-            item->parent = current->parent;
-            return;
-        }
-        else
-        {
-            push_back(item, current->parent, level+1);
-            return;
-        }
-        break;
-
-    case 1:
-        if (current->left_child == nullptr)
-        {
-            current->left_child = item;
-            item->parent = current;
-            return;
-        }
-        else if (current->right_child == nullptr)
-        {
-            current->right_child = item;
-            item->parent = current;
-            return;
-        }
-        else if (current == current->parent->left_child)
-        {
-            push_back(item, current->parent->right_child, level);
-            return;
-        }
-    
-    default:
-
-        if (current == current->parent->right_child) 
-        {
-            push_back(item, current->parent, level + 1);
-            return;
-        }
-        if (current == current->parent->left_child) 
-        { 
-            push_back(item, current->parent->right_child->left_child, level - 1); 
-            return;
-        }
-        break;
-    }
-}
-
-*/
-
 void heap_BT::push_back(node* item, node* current, int level)
 {
 
@@ -227,69 +147,6 @@ void heap_BT::push_back(node* item, node* current, int level)
     }
 
 }
-
-/*
-
-void heap_BT::pop_back(node* current, int level)
-{
-    if (current == root)
-    {
-
-        if (level == 0)     // Delete root into empty tree
-        {
-            tail = nullptr;
-            root = nullptr;
-            delete current;
-            return;
-        }
-
-        while (current->right_child != nullptr)     // Go all the way down to the right
-        {
-            current = current->right_child;
-        }
-
-        tail = current;
-        return;
-    }
-
-    switch (level)
-    {
-    case 0:
-        if (current->parent->right_child == current)
-        {
-            tail = current->parent->left_child;
-            delete current;
-            return;
-        }
-        else
-        {
-            node* temp = current->parent;
-            delete current;
-            pop_back(temp, level+1);
-            return;
-        }                
-
-    default:        // FIXME
-        
-        if (current->parent->right_child == current)    // Go until right child is found OR root is found
-        {
-            current = current->parent->left_child;
-
-            while (current->right_child != nullptr)     // Go all the way down to the right
-            {
-                current = current->right_child;
-            }
-
-            tail = current;
-
-            return;
-        }
-
-        else { pop_back(current->parent, level+1); return; }    // Go up until right child is found
-    }
-}
-
-*/
 
 void heap_BT::delete_node(node* node)       // assumes node is at bottom
 {
@@ -381,6 +238,45 @@ void heap_BT::pop_back(node* current, int level)
 
 }
 
+vector<node*> heap_BT::find_level(node* current, int level) 
+{
+    if (current == nullptr) 
+    { 
+        vector<node*> empty = {};
+        return empty; 
+    }
+    else if (level == 0)
+    {
+        vector<node*> output;
+        output.push_back(current);
+        return output;
+    }
+    else
+    {
+        vector<node*> L = find_level(current->left_child, level-1);
+        vector<node*> R = find_level(current->right_child, level-1);
+
+        for (int i = 0; i < R.size(); i++)                      // Combine vectors
+        {
+            L.push_back(R[i]);
+        }
+
+        return L;
+    }
+}
+
+int heap_BT::level(node* target)
+{
+    int current_level = 0;      
+    node* temp = target;
+    while (temp != root)
+    {
+        temp = temp->parent;
+        current_level++;
+    }
+    return current_level;
+}
+
 // ASSIGNMENTS FUNCTIONS
 
 void heap_BT::swim(node* current)
@@ -470,9 +366,44 @@ int heap_BT::computeLeaves(node* current)
 
 bool heap_BT::lookup(int key, node* current)
 {
-
     if (current == nullptr) { return false; }
     else if (current->priority == key) { return true; }
     else {return lookup(key, current->left_child) || lookup(key, current->right_child);}
 }
+
+vector<node*> heap_BT::sameLevel(node* current)
+{
+    vector<node*> output = find_level(current, level(current));
+    return output;
+}
+
+bool heap_BT::descendant(node* current, node* aNode)
+{
+    node* point = aNode;
+
+    if (aNode == root)                                          // root can't be descendant of anyone
+    {
+        return false;
+    }
+    if (current == root)                                        // root is descendant of all
+    {
+        return  true;
+    }
+
+    while (point != root)                                       // Climb until node is found OR reach end
+    {
+        if (point == current)
+        {
+            return true;
+        }
+        else 
+        {
+            point = point->parent;
+        }
+    }
+
+    return false;                                               // reached end of while loop
+}
+
+
 

@@ -1,3 +1,3 @@
-g++ *.cpp lib/*.cpp
+g++ *.cpp lib/*.cpp -o main.exe
 
-a.exe
+main.exe

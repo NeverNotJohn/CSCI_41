@@ -121,7 +121,9 @@ struct heap_BT {
 
     node* find_right_most(node* current);                       // returns right most node
     node* find_left_most(node* current);                        // returns left most node
+    vector<node*> find_level(node* current, int level);
 
+    int level(node* target);
 
     // Assignment Functions
     void insert(int data, int priority);
@@ -134,8 +136,6 @@ struct heap_BT {
     bool lookup(int key, node* current = root);
     vector<node*> sameLevel(node* current);
     bool descendant(node* current, node* aNode);
-
-    // Functions
 
 };
 
