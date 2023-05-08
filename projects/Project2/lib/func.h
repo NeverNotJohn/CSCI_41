@@ -131,7 +131,7 @@ struct heap_BT {
 
     int computeHeight(node* current = root, int level = 1);
     int computeLeaves(node* current = root);
-    bool lookup(int key);
+    bool lookup(int key, node* current = root);
     vector<node*> sameLevel(node* current);
     bool descendant(node* current, node* aNode);
 

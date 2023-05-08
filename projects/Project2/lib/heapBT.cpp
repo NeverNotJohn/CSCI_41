@@ -215,7 +215,7 @@ void heap_BT::push_back(node* item, node* current, int level)
         {
             current = find_left_most(current->parent->right_child);
             current->left_child = item;
-            
+
             item->parent = current;
             return;
         }
@@ -455,3 +455,24 @@ int heap_BT::computeHeight(node* current, int level)
 
     else { return computeHeight(current->left_child, level+1); }
 }
+
+int heap_BT::computeLeaves(node* current)
+{
+
+    if (current == nullptr) {return 0;}                         // Empty Node
+
+    node* L = current->left_child;
+    node* R = current->right_child;
+
+    if (L == nullptr && R == nullptr) { return 1;}              // Leaf node
+    else {return computeLeaves(current->left_child) + computeLeaves(current->right_child);}     // Add sum
+}
+
+bool heap_BT::lookup(int key, node* current)
+{
+
+    if (current == nullptr) { return false; }
+    else if (current->priority == key) { return true; }
+    else {return lookup(key, current->left_child) || lookup(key, current->right_child);}
+}
+

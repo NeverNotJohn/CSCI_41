@@ -10,7 +10,7 @@ int main() {
     /////////////////////////
     */
 
-    int size = 1000000;
+    int size = 1000;
 
     // Creating BIG vector
 
@@ -62,8 +62,6 @@ int main() {
         unsorted_vector.push_back(temp);
     }
 
-/*
-
     /////////////////////////////////////////////////////////
     //      Priority Queue w/ Vector w/ O(N^2) sorting     //
     /////////////////////////////////////////////////////////
@@ -97,8 +95,7 @@ int main() {
     print(PQvector1.myVector);
     cout << endl << endl << endl;
 
-*/
-/*
+
     
     ////////////////////////////////////////////////////////////
     //      Priority Queue w/ Vector w/  O(NlogN) sorting     //
@@ -130,7 +127,6 @@ int main() {
     print(PQVector2.myVector);
     cout << endl << endl << endl;
 
-*/
 
     /////////////////////////////////////
     //      Priority Queue w/ Heap     //
@@ -201,6 +197,28 @@ int main() {
 
     cout << "Average Heap Binary Tree execution time: " << total_time/5 << " seconds" << endl;
     print(output);
+
+    // OTHER FUNCTIONS
+    heap_BT heapy;
+    for (int j = 0; j < unsorted_vector.size(); j++)
+    {
+        heapy.insert(unsorted_vector[j].data, unsorted_vector[j].priority);
+    }
+
+    cout << endl;
+    cout << "Num of Leaves: " << heapy.computeLeaves() << endl;
+    cout << "Lookup(-1): ";
+
+    if (heapy.lookup(-1)) { cout << "Num is in array";}
+    else { cout << "Num is not in array";}
+
+    cout << endl;
+
+    cout << "Lookup(unsorted_vector[99].priority): ";
+    if (heapy.lookup(unsorted_vector[99].priority)) { cout << "Num is in array";}
+    else { cout << "Num is not in array";}
+
+
 
     cout << endl << endl << endl;
     system("pause");
