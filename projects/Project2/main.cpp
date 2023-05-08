@@ -10,20 +10,20 @@ int main() {
     /////////////////////////
     */
 
-   
+    int size = 1000000;
+
     // Creating BIG vector
 
     srand(time(NULL));
 
     vector<int> bigBoy = {};
 
-    for (int i = 0; i < 100000; i++) {
-        int num = rand() % 100000;
+    for (int i = 0; i < size; i++) {
+        int num = rand() % size;
         bigBoy.push_back(num);
     }
 
-    cout << "Vector size: " << bigBoy.size() << endl;
-    cout << "quickSort Start!!!" << endl;
+    cout << "Vector size: " << size << endl << endl;
 
     double total_time = 0;
 
@@ -55,10 +55,10 @@ int main() {
 
     vector<item> unsorted_vector = {};
 
-    for (int i = 0; i < 100000; i++)
+    for (int i = 0; i < size; i++)
     {
-        int num = rand() % 100000;
-        item temp(i, num);
+        int num = rand() % size;
+        item temp(i, bigBoy[i]);
         unsorted_vector.push_back(temp);
     }
 
@@ -168,39 +168,40 @@ int main() {
     cout << "Average Heap sort execution time: " << total_time/5 << " seconds" << endl;
     print(output);
 
-    if (PQvector3.is_valid()) { cout << "Heap is valid";}
-    else {cout << "Heap isn't valid";}
-
     cout << endl << endl << endl;
 
     /////////////////////////////////////////////////
     //      Priority Queue w/ Binary Tree Heap     //
     ////////////////////////////////////////////////
 
-    heap_BT heapy;
-
     total_time = 0;
 
-
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 5; i++)
     {
+        heap_BT heapy;
         output = {};
-        for (int j = 0; j < 64; j++)
+
+        unsigned long long int start = clock();
+
+        for (int j = 0; j < unsorted_vector.size(); j++)
         {
-            heapy.insert(rand() % 64, rand() % 64);
+            heapy.insert(unsorted_vector[j].data, unsorted_vector[j].priority);
         }
 
-        for (int j = 0; j < 64 - 1; j++)
+        for (int j = 0; j < unsorted_vector.size(); j++)
         {
             output.push_back(heapy.delMax());
-            heapy.display();        // FIXME
-            cout << "tail: " << heapy.tail;
-            cout << endl << endl << endl;
         }
+
+        unsigned long long int end = clock();
+        double tome = (end - start) / (double)CLOCKS_PER_SEC;
+        total_time += tome;
+
     }
 
+    cout << "Average Heap Binary Tree execution time: " << total_time/5 << " seconds" << endl;
     print(output);
 
-
+    cout << endl << endl << endl;
     system("pause");
 }

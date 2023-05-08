@@ -21,23 +21,13 @@ node::node(int data_in, int priority_in, node* parent_in)
 {
     data = data_in;
     priority = priority_in;
-    parent_in = parent;
+    parent_in = nullptr;
     left_child = nullptr;
     right_child = nullptr;
 }
 
-node::~node()                       // assumes node is at bottom
-{ 
-    if (parent == nullptr) {}
-    else if (parent->left_child == this)
-    {
-        parent->left_child = nullptr;
-    }
-    else
-    {
-        parent->right_child = nullptr;
-    }
-}
+node::~node() {}                 
+
 
 // Heap
 
@@ -63,7 +53,7 @@ void heap_BT::swap(node* left, node* right)
 void heap_BT::display(node* root, int level)
 {
 
-    if (level == 12) {return;}
+    // if (level == 12) {return;}
 
     /* Format:
 
@@ -77,7 +67,7 @@ void heap_BT::display(node* root, int level)
 
     */
 
-    if (level == 0) {cout << "|--" << root << endl;}
+    if (level == 0) {cout << "|--" << root->priority << endl;}
     else
     {
         cout << "   ";
@@ -85,7 +75,7 @@ void heap_BT::display(node* root, int level)
         {
             cout << "|   ";
         }
-        cout << "|--" << root << endl;
+        cout << "|--" << root->priority << endl;
     }
     node* L = root->left_child;
     node* R = root->right_child;
@@ -94,6 +84,8 @@ void heap_BT::display(node* root, int level)
     if (R != nullptr) {display(R, (level+1));}
     if (L != nullptr) {display(L, (level+1));}
 }
+
+/*
 
 void heap_BT::push_back(node* item, node* current, int level)
 {
@@ -171,6 +163,73 @@ void heap_BT::push_back(node* item, node* current, int level)
     }
 }
 
+*/
+
+void heap_BT::push_back(node* item, node* current, int level)
+{
+
+    tail = item;
+
+    if (root == nullptr)                                        // empty list
+    {
+        root = item;
+        tail = item;
+        return;
+    }
+
+    else if (current == root)                                   // Move up until u hit root
+    {
+
+        if (level == 0)                                         // List of 1
+        {
+            current->left_child = item;
+            item->parent = root;
+            return;
+        }
+
+        current = find_left_most(current);
+
+        current->left_child = item;
+        item->parent = current;
+        return;
+    }   
+
+    else if (level == 0)                                        // checks for immediate right
+    {
+        if (current->parent->left_child == current)             // is left
+        {
+            current->parent->right_child = item;
+            item->parent = current->parent;
+            return;
+        }
+        else                                                    // is right
+        {
+            push_back(item, current->parent, level+1);
+            return;
+        }
+    }
+
+    else
+    {
+        if (current->parent->left_child == current)             // is left
+        {
+            current = find_left_most(current->parent->right_child);
+            current->left_child = item;
+            
+            item->parent = current;
+            return;
+        }
+        else                                                    // is right
+        {
+            push_back(item, current->parent, level+1);
+            return;
+        }
+    }
+
+}
+
+/*
+
 void heap_BT::pop_back(node* current, int level)
 {
     if (current == root)
@@ -228,6 +287,98 @@ void heap_BT::pop_back(node* current, int level)
 
         else { pop_back(current->parent, level+1); return; }    // Go up until right child is found
     }
+}
+
+*/
+
+void heap_BT::delete_node(node* node)       // assumes node is at bottom
+{
+    if (node == root)
+    {
+        root = nullptr;
+        tail = nullptr;
+        delete node;
+        return;
+    }
+
+    if (node->parent->right_child == node)
+    {                                       // Node is a right child
+        node->parent->right_child = nullptr;
+        delete node;
+    }
+    else
+    {
+        node->parent->left_child = nullptr;
+        delete node;
+    }
+    
+}
+
+node* heap_BT::find_right_most(node* current)
+{
+    while (current->right_child != nullptr)
+    {
+        current = current->right_child;
+    }
+    return current;
+}
+
+node* heap_BT::find_left_most(node* current)
+{
+    while (current->left_child != nullptr)
+    {
+        current = current->left_child;
+    }
+    return current;
+}
+
+void heap_BT::pop_back(node* current, int level)
+{
+    if (current == root)                    // Root node special case
+    {
+        if (level == 0)
+        {
+            delete_node(current);
+            return;
+        }
+        else                                // At left most node
+        {   
+            tail = find_right_most(current);
+            return;
+        }
+    }
+
+    if (level == 0)
+    {
+        if (current == current->parent->right_child)        // curr is right
+        {
+            tail = current->parent->left_child;
+            delete_node(current);
+            return;
+        }
+        else                                                // curr is left
+        {
+            node* temp = current->parent;
+            delete_node(current);
+            pop_back(temp, level+1);                        // Move one level up
+            return;
+        }
+    }
+
+    else 
+    {
+        if (current == current->parent->right_child)        // curr is right
+        {
+            tail = find_right_most(current->parent->left_child);    // find most right in left subtree
+            return;
+        }
+        else
+        {
+            pop_back(current->parent, level+1);
+            return;
+        }
+    }
+
 }
 
 // ASSIGNMENTS FUNCTIONS
@@ -295,3 +446,12 @@ int heap_BT::delMax()
     return temp;
 }
 
+int heap_BT::computeHeight(node* current, int level)
+{
+    if (current->left_child == nullptr)
+    {
+        return level;
+    }
+
+    else { return computeHeight(current->left_child, level+1); }
+}

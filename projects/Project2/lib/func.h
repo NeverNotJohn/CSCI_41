@@ -117,6 +117,11 @@ struct heap_BT {
     void display(node* current = root, int level = 0);
     void push_back(node* item, node* current=tail, int level = 0);
     void pop_back(node* current = tail, int level = 0);
+    void delete_node(node* node);
+
+    node* find_right_most(node* current);                       // returns right most node
+    node* find_left_most(node* current);                        // returns left most node
+
 
     // Assignment Functions
     void insert(int data, int priority);
@@ -124,7 +129,7 @@ struct heap_BT {
     void sink(node* current);
     int delMax();
 
-    int computeHeight(node* current = root);
+    int computeHeight(node* current = root, int level = 1);
     int computeLeaves(node* current = root);
     bool lookup(int key);
     vector<node*> sameLevel(node* current);
